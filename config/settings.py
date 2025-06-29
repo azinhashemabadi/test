@@ -16,6 +16,8 @@ deploy = env("deploy")
 # Secret key for security purposes
 SECRET_KEY = env("SECRET_KEY")
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 ALLOWED_HOSTS = []
 
