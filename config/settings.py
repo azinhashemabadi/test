@@ -21,7 +21,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ALLOWED_HOSTS = ["192.168.6.199","*"]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "http://192.168.6.199:8000",
+]
 # Application definition
 
 INSTALLED_APPS = [
