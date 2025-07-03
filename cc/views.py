@@ -86,7 +86,8 @@ class PingCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Ping saved successfully."}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        else:
+            return Response(serializer.errors, status=400)
     
     def get(self, request):
         pings = Ping.objects.all().order_by('-timestamp')
@@ -99,7 +100,8 @@ class DNSCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "DNS record saved."}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
+        else:
+            return Response(serializer.errors, status=400)  
 
     def get(self, request):
         dns_records = DNS.objects.all().order_by('-timestamp')
@@ -112,7 +114,9 @@ class DownloadCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Download record saved."}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        else:
+            return Response(serializer.errors, status=400) 
+    
 
     def get(self, request):
         downloads = Download.objects.all().order_by('-timestamp')
@@ -124,7 +128,8 @@ class UploadCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Download record saved."}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+        else:
+            return Response(serializer.errors, status=400) 
 
     def get(self, request):
         uploads = Upload.objects.all().order_by('-timestamp')
@@ -137,8 +142,8 @@ class WebCreateView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Web record saved."}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
-
+        else:
+            return Response(serializer.errors, status=400)
     def get(self, request):
         web_records = Web.objects.all().order_by('-timestamp')
         serializer = WebSerializer(web_records, many=True)
