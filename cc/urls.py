@@ -12,4 +12,5 @@ urlpatterns = [
         path('api/download/', DownloadCreateView.as_view(), name='download-create'),
         path('api/upload/', UploadCreateView.as_view(), name='upload-create'),
         path('api/web/', WebCreateView.as_view(), name='web-create'),
+        path('api/webbb/', WebCreateView.as_view(), name='web-create'),
 ]
