@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import *
 from rest_framework.views import APIView
-from .serializers import MeasurementSerializer
+from .serializers import MeasurementSerializer,PingSerializer,DNSSerializer,DownloadSerializer,UploadSerializer,WebSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -78,3 +78,68 @@ class MeasurementListView(APIView):
         measurements = Measurement.objects.all()
         serializer = MeasurementSerializer(measurements, many=True)
         return Response(serializer.data)
+    
+# api for test  
+class PingCreateView(APIView):
+    def post(self, request):
+        serializer = PingSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Ping saved successfully."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    
+    def get(self, request):
+        pings = Ping.objects.all().order_by('-timestamp')
+        serializer = PingSerializer(pings, many=True)
+        return Response(serializer.data)
+
+class DNSCreateView(APIView):
+    def post(self, request):
+        serializer = DNSSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "DNS record saved."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
+
+    def get(self, request):
+        dns_records = DNS.objects.all().order_by('-timestamp')
+        serializer = DNSSerializer(dns_records, many=True)
+        return Response(serializer.data)  
+    
+class DownloadCreateView(APIView):
+    def post(self, request):
+        serializer = DownloadSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Download record saved."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    def get(self, request):
+        downloads = Download.objects.all().order_by('-timestamp')
+        serializer = DownloadSerializer(downloads, many=True)
+        return Response(serializer.data)   
+class UploadCreateView(APIView):
+    def post(self, request):
+        serializer = UploadSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Download record saved."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    def get(self, request):
+        uploads = Upload.objects.all().order_by('-timestamp')
+        serializer = UploadSerializer(uploads, many=True)
+        return Response(serializer.data)   
+    
+class WebCreateView(APIView):
+    def post(self, request):
+        serializer = WebSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Web record saved."}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)   
+
+    def get(self, request):
+        web_records = Web.objects.all().order_by('-timestamp')
+        serializer = WebSerializer(web_records, many=True)
+        return Response(serializer.data) 
