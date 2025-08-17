@@ -124,18 +124,18 @@ class DownloadCreateView(APIView):
         return Response(serializer.data)   
 class UploadCreateView(APIView):
     def post(self, request):
-        print("📥 درخواست POST به UploadCreateView رسید.")
-        print("📦 request.data =", request.data)
-
         serializer = UploadSerializer(data=request.data)
         if serializer.is_valid():
-            print("✅ داده معتبر است. در حال ذخیره‌سازی...")
             serializer.save()
-            return Response({"message": "Download record saved."}, status=status.HTTP_201_CREATED)
+            return Response({"message": "Upload record saved."}, status=status.HTTP_201_CREATED)
         else:
-            print("❌ داده نامعتبر است.")
-            print("🧾 خطاها:", serializer.errors)
-            return Response(serializer.errors, status=400)   
+            return Response(serializer.errors, status=400) 
+    
+
+    def get(self, request):
+        uploads = Upload.objects.all().order_by('-timestamp')
+        serializer = UploadSerializer(uploads, many=True)
+        return Response(serializer.data)     
     
 class WebCreateView(APIView):
     def post(self, request):
