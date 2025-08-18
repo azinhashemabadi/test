@@ -10,7 +10,7 @@ class PingSerializer(serializers.ModelSerializer):
         model = Ping
         fields = '__all__'  
 
-class DNSSerializer(serializers.ModelSerializer):
+class DNSerializer(serializers.ModelSerializer):
     wasSuccessful = serializers.BooleanField(required=False)
 
     def to_internal_value(self, data):

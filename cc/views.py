@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import *
 from rest_framework.views import APIView
-from .serializers import MeasurementSerializer,PingSerializer,DNSSerializer,DownloadSerializer,UploadSerializer,WebSerializer
+from .serializers import MeasurementSerializer,PingSerializer,DNSerializer,DownloadSerializer,UploadSerializer,WebSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -96,7 +96,7 @@ class PingCreateView(APIView):
 
 class DNSCreateView(APIView):
     def post(self, request):
-        serializer = DNSSerializer(data=request.data)
+        serializer = DNSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "DNS record saved."}, status=status.HTTP_201_CREATED)
@@ -105,7 +105,7 @@ class DNSCreateView(APIView):
 
     def get(self, request):
         dns_records = DNS.objects.all().order_by('-timestamp')
-        serializer = DNSSerializer(dns_records, many=True)
+        serializer = DNSerializer(dns_records, many=True)
         return Response(serializer.data)  
     
 class DownloadCreateView(APIView):
