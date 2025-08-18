@@ -33,7 +33,8 @@ class DNS(models.Model):
     timestamp = models.BigIntegerField(null=True, blank=True) 
     hostname = models.CharField(max_length=100) 
     resolvedIpAddress = models.CharField(max_length=45)
-    wasSuccessful = models.BooleanField(default=False) 
+    resolutionTimeMs = models.BigIntegerField(null=True, blank=True)
+    wasSuccessful = models.BooleanField(default=False, blank=True) 
     
     def __str__(self):
         return f"DNS {self.id} @ {self.timestamp}"

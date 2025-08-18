@@ -11,9 +11,20 @@ class PingSerializer(serializers.ModelSerializer):
         fields = '__all__'  
 
 class DNSSerializer(serializers.ModelSerializer):
+    wasSuccessful = serializers.BooleanField(required=False)
+
+    def to_internal_value(self, data):
+        if "wasSuccessful" in data:
+            # تبدیل 0/1 به True/False
+            if data["wasSuccessful"] in [0, "0"]:
+                data["wasSuccessful"] = False
+            elif data["wasSuccessful"] in [1, "1"]:
+                data["wasSuccessful"] = True
+        return super().to_internal_value(data)
+
     class Meta:
         model = DNS
-        fields = '__all__'    
+        fields = '__all__'   
 
 class DownloadSerializer(serializers.ModelSerializer):
     class Meta:
